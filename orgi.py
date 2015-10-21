@@ -1,21 +1,62 @@
-from flask import Flask, render_template, request, redirect
+from flask 
+import Flask 
+import render_template
+import request
+import redirect
+import g, 						# Global Veriable
+import sqlite3						# SQL Lite
+
 app = Flask(__name__)
 
-email_addresses = []
+# -------------------------------------------------------------------------------------- #
+#				Opening & Closing the Database				 #		
+# -------------------------------------------------------------------------------------- #
 
-@app.route('/login')                             	# Login Page
+@app.before_request
+def before_request():
+    g.db = sqlite3.connect("emails.db")
+
+@app.teardown_request
+def teardown_request(exception):
+    if hasattr(g, 'db'):
+        g.db.close()
+
+# -------------------------------------------------------------------------------------- #
+# 					Login Page					 #
+# -------------------------------------------------------------------------------------- #
+
+@app.route('/')                             		
 def login():
+    email_entry     =  request.form['email']							# Taking the email entry 
+    password_entry  =  request.form['password']		                             		# Taking the password entry 
+    email           =  g.db.execute("SELECT email FROM email_addresses").fetchall()		# 
+    password        =  g.db.execute("SELECT password_entry FROM passwords").fetchall()		# 
+    
+    if password_entry == pasword
+        return redirect('/home')
+    else 
+        
     return render_template('login.html')
 
-@app.route('/')						# Homepage
+# -------------------------------------------------------------------------------------- #
+# 					Home Page					 #
+# -------------------------------------------------------------------------------------- #
+
+@app.route('/home')					
 def home():
     return render_template('index.html')
-	
+    
+    
+    
+    
+
+# -------------------------------------------------------------------------------------- #	
+
 @app.route('/signup', methods = ['POST'])		# Signup Page
 def signup():
     email = request.form['email']			# Taking the email entry 
-    email_addresses.append(email)			# Adding the email onto the list
-    session['email'] = email				# Adding the email to the session	
+    g.db.execute("INSERT INTO email_addresses VALUES (?)", [email])
+    g.db.commit()					# Saves the email address
     return redirect('/')
     
 @app.route('/unregister', methods = ['POST'])
@@ -29,10 +70,11 @@ def unregister():
     del session['email'] 				# Make sure to remove it from the session
     return 'We have removed ' + email + ' from the list!'   
    
-   
 @app.route('/emails.html')
 def emails():
-    return render_template('emails.html', email_addresses = email_addresses)
+    email_addresses = g.db.execute("SELECT email FROM email_addresses").fetchall()
+    return render_template('emails.html', email_addresses=email_addresses)   
+
 	
 if __name__ == '__main__':
      app.run()
