@@ -4,15 +4,20 @@ body {
 }
 .starter-template {
   padding:         40px 15px;
-  /*text-align:      center;*/
+  text-align:      left;
 }
 
 .paint_tool{
-  width:            700px;
-  height:           600px;
+  width:            500px;
+  height:           800px;
   background-color: #FFFFFF;
   border:           2px solid #FFA500;
   margin-top:       30px;
-  margin-left:      60px;
-  vertical-align:   left;
+}
+
+.pdf{
+  width:            600px;
+  height:           800px;
+  border:           2px solid #FFA500;
+  margin-top:       30px;
 }

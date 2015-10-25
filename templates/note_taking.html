@@ -40,22 +40,30 @@
             <li class="active"><a href="#note_taking">Note Taking</a></li>
             <li><a href="#">Home</a></li>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div> <!--/.nav-collapse -->
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container"> 
+      <div class="row"> 
       
-      <div id="canvasDiv" class=paint_tool>
-        <canvas id="canvasSignature" width="700px" height="600px" ></canvas> 
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Save Notes</a></p>
+        <div class="col-md-6">	
+	 
+        <div id="canvasDiv" class=paint_tool>
+          <canvas id="canvasSignature" width="500px" height="800px" ></canvas> 
+          <p><a class="btn btn-lg btn-success" href="#" role="button">Save Notes</a></p>
+        </div>
+
+        </div>
+           
+        <div class="col-md-6">
+          <div class=pdf>
+            <iframe src="http://docs.google.com/gview?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true" style="width:600px; height:800px;"></iframe>
+          </div>
+        </div>
       </div>
-      
-      <div class=pdf>
-        <a href="view.php?download_file=MIKOGO Remote Support.pdf"><img src="images/view.png" alt=" " border="0"/></a>
-      </div>
-   
-    </div><!-- /.container -->
+         
+    </div> <!-- /.container -->
 
 
    
