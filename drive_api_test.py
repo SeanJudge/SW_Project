@@ -37,8 +37,8 @@ def index():
   else:
     http_auth = credentials.authorize(httplib2.Http())
     drive_service = discovery.build('drive', 'v2', http_auth)
-    files = drive_service.files().list().execute()
-    return json.dumps(files)
+    files = drive_service.files().list().execute() 
+    return "You have accessed the drive successfully ------- "#+json.dumps(files)
 
 
 @app.route('/oauth2callback')
