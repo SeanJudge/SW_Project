@@ -1,10 +1,9 @@
-from flask 
-import Flask 
-import render_template
-import request
-import redirect
-import g, 						# Global Veriable
-import sqlite3						# SQL Lite
+from flask import Flask 
+from flask import render_template
+from flask import request
+from flask import redirect
+from flask import g 	    # Global Variable
+import sqlite3		    # SQL Lite
 
 app = Flask(__name__)
 
@@ -31,12 +30,11 @@ def login():
     password_entry  =  request.form['password']		                             		# Taking the password entry 
     email           =  g.db.execute("SELECT email FROM email_addresses").fetchall()		# 
     password        =  g.db.execute("SELECT password_entry FROM passwords").fetchall()		# 
-    
-    if password_entry == pasword
+
+    if password_entry == password:
         return redirect('/home')
-    else 
-        
-    return render_template('login.html')
+    else:
+        return render_template('login.html')
 
 # -------------------------------------------------------------------------------------- #
 # 					Home Page					 #
