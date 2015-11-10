@@ -1,6 +1,6 @@
 #!flask/bin/python
 import flask
-from flask import Flask, jsonify, abort, make_response, request, url_for, render_template
+from flask import Flask, jsonify, abort, make_response, request, url_for, render_template, redirect
 
 app = Flask(__name__)
 
@@ -26,17 +26,16 @@ tasks = [
 # -------------------------------------------------------- #
 # 	                Default root    	           #
 # -------------------------------------------------------- #
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
-    #return flask.redirect(flask.url_for('get_tasks'))
-    return render_template('to_do.html')
+    return render_template('to_do.html', tasks=tasks)
 
 # -------------------------------------------------------- #
 # 	       Request for task list     	           #
 # -------------------------------------------------------- #
 @app.route('/todo/api/get_tasks', methods=['GET'])
 def get_tasks():
-    return jsonify({'tasks': [make_public_task(task) for task in tasks]})
+    return jsonify({'tasks': [task for task in tasks]})
 
 # -------------------------------------------------------- #
 # 	       Request for specific task      	           #
@@ -63,28 +62,21 @@ def create_task():
         'done': False
     }
     tasks.append(task)
-    return jsonify({'task': task}), 201
+    return redirect("/")
 
 # -------------------------------------------------------- #
-# 	       Request to edit a task   	           #
+# 	       Toggle a task checkbox   	           #
 # -------------------------------------------------------- #
-@app.route('/todo/api/update_task/<int:task_id>', methods=['PUT'])
-def update_task(task_id):
-    task = [task for task in tasks if task['id'] == task_id]
+@app.route('/todo/api/toggle_task/<int:task_id>', methods=['GET'])
+def toggle_task(task_id):
+    task = [task for task in tasks if task['id'] == task_id]  #
+
     if len(task) == 0:
         abort(404)
-    if not request.form:
-        abort(400)
-    if 'title' in request.form and type(request.form['title']) != unicode:
-        abort(400)
-    if 'description' in request.form and type(request.form['description']) is not unicode:
-        abort(400)
-    if 'done' in request.form and type(request.form['done']) is not bool:
-        abort(400)
-    task[0]['title'] = request.form.get('title', task[0]['title'])
-    task[0]['description'] = request.form.get('description', task[0]['description'])
-    task[0]['done'] = request.form.get('done', task[0]['done'])
-    return jsonify({'task': task[0]})
+
+    task[0]['done'] = not task[0]['done']
+    
+    return redirect("/")
 
 # -------------------------------------------------------- #
 # 	       Request to delete a task   	           #
@@ -103,18 +95,6 @@ def delete_task(task_id):
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
-
-# -------------------------------------------------------- #
-# 	      Public helper version of a task              #
-# -------------------------------------------------------- #
-def make_public_task(task):
-    new_task = {}
-    for field in task:
-        if field == 'id':
-            new_task['uri'] = url_for('get_task', task_id=task['id'], _external=True)
-        else:
-            new_task[field] = task[field]
-    return new_task
 
 # -------------------------------------------------------- #
 # 		           Main	         	           #

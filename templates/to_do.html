@@ -13,9 +13,7 @@
     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-    <script type="text/javascript" src="{{ url_for('static', filename='js/to_do.js')}}"></script>
-    
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     
   </head>
 
@@ -55,20 +53,36 @@
 	  <th>Description</th>
 	  <th>Done?</th>
 	</tr>
+	{% for task in tasks %}
+	<tr>
+	  <td>{{ task.id }}</td>
+	  <td>{{ task.title }}</td>
+	  <td>{{ task.description }}</td>
+	  <td>
+	    <a href="/todo/api/toggle_task/{{ task.id }}">
+	    {% if task.done %}
+	    <i class="fa fa-check-square-o"></i>
+	    {% else %}
+	    <i class="fa fa-square-o"></i>
+	    {% endif %}
+	    </a>
+	  </td>
+	</tr>
+	{% endfor %}
       </table>
     </div>
     
     <div class="container">
       
       <!-- the form action, and form method are redundant now, since we do the submission in javascript -->
-      <form class="form-horizontal" role="form" action="#" method="POST">
+      <form class="form-horizontal" role="form" action="/todo/api/create_task" method="POST">
 	<div class="form-group">
-	  <label for="name">Title</label>
+	  <label for="title">Title</label>
 	  <input type="text" class="form-control" id="title" name="title" placeholder="Enter title"/>
 	</div>
 
 	<div class="form-group">
-	  <label for="number">Description:</label>
+	  <label for="description">Description:</label>
 	  <textarea placeholder="Enter description" class="form-control" id="description" name="description"></textarea>
 	</div>
 
