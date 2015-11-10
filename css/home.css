@@ -1,0 +1,44 @@
+.calendar{
+  font-family:    fantasy;
+  text-align:     center;
+  font-size:      30px;
+  font-style:     bold;
+  color:          blue;
+  margin-top:     50px;
+}
+
+.tasks{
+  font-family:    fantasy;
+  text-align:     center;
+  font-size:      30px;
+  font-style:     bold;
+  color:          red;
+}
+
+.lectures{
+  font-family:    fantasy;
+  text-align:     center;
+  font-size:      30px;
+  font-style:     bold;
+  color:          orange;
+}
+
+.forums{
+  font-family:    fantasy;
+  text-align:     center;
+  font-size:      30px;
+  font-style:     bold;
+  color:          #25A9EA;
+}
+
+.drive{
+  font-family:    fantasy;
+  text-align:     center;
+  font-size:      30px;
+  font-style:     bold;
+  color:          green;
+}
+
+.top-buffer{ 
+margin-top:       50px; 
+}
