@@ -1,29 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Initial setup of webpage -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link rel="icon" href="../static/tab_logo.gif">
+
+    <title>Tasks</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/to_do.js')}}"></script>
+    
+    
   </head>
+
+  <!-- BODY -->
 
   <body>
 
+    <!-- Navigation bar creation-->
+    <nav class="navbare navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">ORGI</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Tasks</a></li>
+            <li><a href="#Homepage">Home</a></li>
+	    <li><a href="#Drive">Drive</a></li>
+	    <li><a href="#Note-taking">Note-taking</a></li>
+	    <li><a href="#Forum">Forum</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    
     <div class="container">
-      <h1>Orgi Tasks Page</h1>
-      <p>Enter a task below.</p>
+      <table id="thetable" class="table table-striped">
+	<tr>
+	  <th>ID</th>
+	  <th>Title</th>
+	  <th>Description</th>
+	  <th>Done?</th>
+	</tr>
+      </table>
     </div>
+    
+    <div class="container">
+      
+      <!-- the form action, and form method are redundant now, since we do the submission in javascript -->
+      <form class="form-horizontal" role="form" action="#" method="POST">
+	<div class="form-group">
+	  <label for="name">Title</label>
+	  <input type="text" class="form-control" id="title" name="title" placeholder="Enter title"/>
+	</div>
 
-    <form action="http://127.0.0.1:5000/todo/api/create_task" method="POST">
-      Title:<br>
-      <input type=text id="title" name="title"/>
-      <br>
-      Description:<br>
-      <input type=text id="description" name="description"/>
-      <br>
-      <input type="submit" value="Submit"/>
-    </form>
+	<div class="form-group">
+	  <label for="number">Description:</label>
+	  <textarea placeholder="Enter description" class="form-control" id="description" name="description"></textarea>
+	</div>
+
+	<button id="addbutton" type="submit" class="btn btn-default">Submit</button>
+      </form>
+      
+    </div><!-- /.container -->
     
   </body>
 </html>

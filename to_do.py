@@ -29,7 +29,7 @@ tasks = [
 @app.route('/')
 def index():
     #return flask.redirect(flask.url_for('get_tasks'))
-    return render_template('delete_me.html')
+    return render_template('to_do.html')
 
 # -------------------------------------------------------- #
 # 	       Request for task list     	           #
