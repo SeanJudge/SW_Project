@@ -57,10 +57,10 @@
 	<tr>
 	  <td>{{ task.id }}</td>
 	  <td>{{ task.title }}</td>
-	  <td>{{ task.description }}</td>
+	  <td>{{ task.desc }}</td>
 	  <td>
 	    <a href="/todo/api/toggle_task/{{ task.id }}">
-	    {% if task.done %}
+	    {% if task.status and task.status == 1 %}
 	    <i class="fa fa-check-square-o"></i>
 	    {% else %}
 	    <i class="fa fa-square-o"></i>

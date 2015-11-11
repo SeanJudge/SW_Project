@@ -1,6 +1,8 @@
 #!flask/bin/python
 import flask
 from flask import Flask, jsonify, abort, make_response, request, url_for, render_template, redirect
+import sqlite3
+from flask import g # flask global context
 
 app = Flask(__name__)
 
@@ -23,11 +25,38 @@ tasks = [
     }
 ]
 
+def dict_factory(cursor, row):
+    result_dict = {}
+    for index, column in enumerate(cursor.description):
+        result_dict[column[0]] = row[index]
+    return result_dict
+
+def get_db():
+    db = getattr(g, 'orgy_database', None)
+    if db is None:
+        db = g.orgy_database = sqlite3.connect("orgy.db")
+        db.row_factory = dict_factory
+    return db
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, 'orgy_database', None)
+    if db is not None:
+        db.close()
+
+USER = 1
+
 # -------------------------------------------------------- #
 # 	                Default root    	           #
 # -------------------------------------------------------- #
 @app.route('/', methods=['GET'])
 def index():
+
+    arguments = (USER,)
+    cursor = get_db().execute("SELECT * FROM todos WHERE user=?", arguments)
+    tasks = cursor.fetchall()
+    cursor.close()
+
     return render_template('to_do.html', tasks=tasks)
 
 # -------------------------------------------------------- #
@@ -55,13 +84,12 @@ def get_task(task_id):
 def create_task():
     if not request.form or not 'title' in request.form:
         abort(400)
-    task = {
-        'id': tasks[-1]['id'] + 1,
-        'title': request.form['title'],
-        'description': request.form.get('description', ""),
-        'done': False
-    }
-    tasks.append(task)
+
+    arguments = (request.form.get("title", None), request.form.get("description", None), USER)
+    cursor = get_db().execute("INSERT INTO todos (title, desc, user) VALUES (?, ?, ?)", arguments)
+    get_db().commit()
+    cursor.close()
+
     return redirect("/")
 
 # -------------------------------------------------------- #
@@ -69,13 +97,23 @@ def create_task():
 # -------------------------------------------------------- #
 @app.route('/todo/api/toggle_task/<int:task_id>', methods=['GET'])
 def toggle_task(task_id):
-    task = [task for task in tasks if task['id'] == task_id]  #
+    #task = [task for task in tasks if task['id'] == task_id]  #
+
+    arguments = (USER, task_id)
+    cursor = get_db().execute("SELECT status FROM todos WHERE user=? AND id=?", arguments)
+    task = cursor.fetchall()
+    cursor.close()
 
     if len(task) == 0:
         abort(404)
 
-    task[0]['done'] = not task[0]['done']
-    
+    new_status = task[0]['status'] ^ 1
+
+    arguments = (new_status, USER, task_id)
+    cursor = get_db().execute("UPDATE todos SET status=? WHERE user=? AND id=?", arguments)
+    get_db().commit()
+    cursor.close()
+
     return redirect("/")
 
 # -------------------------------------------------------- #
