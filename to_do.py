@@ -59,13 +59,15 @@ USER = 1
 # -------------------------------------------------------- #
 @app.route('/', methods=['GET'])
 def index():
-
+    # Extract data from database and store todos in list
     arguments = (USER,)
     cursor = get_db().execute("SELECT * FROM todos WHERE user=?", arguments)
-    tasks = cursor.fetchall()
+    todos = cursor.fetchall()
+    cursor = get_db().execute("SELECT * FROM deadlines WHERE user=?", arguments)
+    deadlines = cursor.fetchall()
     cursor.close()
 
-    return render_template('to_do.html', tasks=tasks)      # Render to_do page and pass tasks to be processed by Jinja script
+    return render_template('to_do.html', todos=todos, deadlines=deadlines)      # Render to_do page and pass tasks to be processed by Jinja script
 
 # -------------------------------------------------------- #
 # 	       Request for task list     	           #
@@ -106,17 +108,16 @@ def create_task():
 # -------------------------------------------------------- #
 @app.route('/todo/api/toggle_task/<int:task_id>', methods=['GET'])
 def toggle_task(task_id):
-    #task = [task for task in tasks if task['id'] == task_id]  #
 
     arguments = (USER, task_id)
     cursor = get_db().execute("SELECT status FROM todos WHERE user=? AND id=?", arguments)
-    task = cursor.fetchall()
+    todo = cursor.fetchall()
     cursor.close()
 
-    if len(task) == 0:
+    if len(todo) == 0:
         abort(404)
 
-    new_status = task[0]['status'] ^ 1
+    new_status = todo[0]['status'] ^ 1
 
     arguments = (new_status, USER, task_id)
     cursor = get_db().execute("UPDATE todos SET status=? WHERE user=? AND id=?", arguments)
