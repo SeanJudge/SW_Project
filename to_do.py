@@ -25,12 +25,18 @@ tasks = [
     }
 ]
 
+# -------------------------------------------------------- #
+# 	            Database functions   	           #
+# -------------------------------------------------------- #
+
+# Used to convert contents of database in to usable rows
 def dict_factory(cursor, row):
     result_dict = {}
     for index, column in enumerate(cursor.description):
         result_dict[column[0]] = row[index]
     return result_dict
 
+# Obtain handle to database
 def get_db():
     db = getattr(g, 'orgy_database', None)
     if db is None:
@@ -38,12 +44,14 @@ def get_db():
         db.row_factory = dict_factory
     return db
 
+# Closing connection to database
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, 'orgy_database', None)
     if db is not None:
         db.close()
 
+# Default user for database until I can distinguish between users
 USER = 1
 
 # -------------------------------------------------------- #
@@ -57,7 +65,7 @@ def index():
     tasks = cursor.fetchall()
     cursor.close()
 
-    return render_template('to_do.html', tasks=tasks)
+    return render_template('to_do.html', tasks=tasks)      # Render to_do page and pass tasks to be processed by Jinja script
 
 # -------------------------------------------------------- #
 # 	       Request for task list     	           #
@@ -82,6 +90,7 @@ def get_task(task_id):
 # -------------------------------------------------------- #
 @app.route('/todo/api/create_task', methods=['POST'])
 def create_task():
+    # Abort if request doesn't exist
     if not request.form or not 'title' in request.form:
         abort(400)
 
