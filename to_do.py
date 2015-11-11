@@ -104,6 +104,23 @@ def create_task():
     return redirect("/")
 
 # -------------------------------------------------------- #
+# 	       Request for to add new deadline   	           #
+# -------------------------------------------------------- #
+@app.route('/todo/api/create_deadline', methods=['POST'])
+def create_deadline():
+    # Abort if request doesn't exist
+    if not request.form or not 'title' in request.form:
+        abort(400)
+
+    arguments = (request.form.get("title", None), request.form.get("date", None), USER)
+    cursor = get_db().execute("INSERT INTO deadlines (title, date, user) VALUES (?, ?, ?)", arguments)
+    get_db().commit()
+    cursor.close()
+
+    return redirect("/")
+
+
+# -------------------------------------------------------- #
 # 	       Toggle a task checkbox   	           #
 # -------------------------------------------------------- #
 @app.route('/todo/api/toggle_task/<int:task_id>', methods=['GET'])
