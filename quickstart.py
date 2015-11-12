@@ -53,6 +53,7 @@ def main():
     for up to 10 files.
     """
     credentials = get_credentials()
+    print("Credentials are: " + str(credentials))
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('drive', 'v2', http=http)
 
