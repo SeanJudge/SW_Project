@@ -56,7 +56,7 @@ def main():
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('drive', 'v2', http=http)
 
-    results = service.files().list(maxResults=10).execute()
+    results = service.files().list(maxResults=100).execute()
     items = results.get('items', [])
     if not items:
         print('No files found.')
