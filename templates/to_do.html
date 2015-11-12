@@ -9,9 +9,8 @@
     <title>Tasks</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     
@@ -71,7 +70,39 @@
             {% endif %}
         </div>
       {% endfor %}
+    </div>
 
+    <!--=========================== MODAL FORM FOR DEADLINES ===========================-->
+    <div class="container">
+      <!-- Trigger the modal with a button -->
+      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#NewDeadlineModal">New Deadline</button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="NewDeadlineModal" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h3 class="modal-title">Add new Deadline</h3>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form" action="/todo/api/create_deadline" method="POST">
+                    <div class="form-group col-lg-12">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title"/>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="date">Due date:</label>
+                        <input class="form-control" id="date" name="date" placeholder="Enter date (dd/mm/yyyy)"/>
+                    </div>
+                    <button id="addbutton2" type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     
     <!--=========================== TABLE FOR TASKS ===========================-->
@@ -103,39 +134,39 @@
         {% endfor %}
       </table>
     </div>
-    
-    <!--=========================== FORM FOR TASKS ===========================-->
-    <div class="container">
-        <div class="row col-lg-6">
-            <h2>Add new To-do</h2>
-            <form class="form-horizontal" role="form" action="/todo/api/create_task" method="POST">
-                <div class="form-group col-lg-12">
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter title"/>
-                </div>
-                <div class="form-group col-lg-12">
-                    <label for="description">Description:</label>
-                    <textarea placeholder="Enter description" class="form-control" id="description" name="description"></textarea>
-                </div>
-                <button id="addbutton" type="submit" class="btn btn-default">Submit</button>
-            </form>
-        </div>
 
-        <div class="row col-lg-6">
-            <h2>Add new Deadline</h2>
-            <form class="form-horizontal" role="form" action="/todo/api/create_deadline" method="POST">
-                <div class="form-group col-lg-12">
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter title"/>
-                </div>
-                <div class="form-group col-lg-12">
-                    <label for="date">Due date:</label>
-                    <input class="form-control" id="date" name="date" placeholder="Enter date (dd/mm/yyyy)"/>
-                </div>
-                <button id="addbutton2" type="submit" class="btn btn-default">Submit</button>
-            </form>
+    <!--=========================== MODAL FORM FOR TASKS ===========================-->
+    <div class="container">
+      <!-- Trigger the modal with a button -->
+      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#NewTodoModal">New Todo</button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="NewTodoModal" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h3 class="modal-title">Add new To-do</h3>
+            </div>
+            <div class="modal-body">
+                <form id="newtodoform" class="form-horizontal" role="form" action="/todo/api/create_task" method="POST">
+                    <div class="form-group col-lg-12">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter title"/>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="description">Description:</label>
+                        <textarea placeholder="Enter description" class="form-control" id="description" name="description"></textarea>
+                    </div>
+                    <button id="addbutton" type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+          </div>
         </div>
-    </div><!-- /.container -->
-    
+      </div>
+    </div>
+
   </body>
 </html>
