@@ -2,28 +2,10 @@
 import flask
 from flask import Flask, jsonify, abort, make_response, request, url_for, render_template, redirect
 import sqlite3
+import datetime
 from flask import g # flask global context
 
 app = Flask(__name__)
-
-
-# -------------------------------------------------------- #
-# 	  Task structure(To be implemented in database)    #
-# -------------------------------------------------------- #
-tasks = [
-    {
-        'id': 1,
-        'title': u'Buy groceries',
-        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol', 
-        'done': False
-    },
-    {
-        'id': 2,
-        'title': u'Learn Python',
-        'description': u'Need to find a good Python tutorial on the web', 
-        'done': False
-    }
-]
 
 # -------------------------------------------------------- #
 # 	            Database functions   	           #
@@ -65,26 +47,24 @@ def index():
     todos = cursor.fetchall()
     cursor = get_db().execute("SELECT * FROM deadlines WHERE user=?", arguments)
     deadlines = cursor.fetchall()
+
+    # Determining number of days left until deadline
+    date_today = datetime.date.today()
+    for deadline in deadlines:
+        date_elems = deadline['date'].strip().split("/")
+        due_date = datetime.date(int(date_elems[2]), int(date_elems[1]), int(date_elems[0]))
+        time_left = due_date - date_today
+        days_left = time_left.days
+        if days_left > 30:
+            deadline['date'] = str(30)
+            deadline['width'] = str(100)
+        else:
+            deadline['date'] = str(days_left)
+            deadline['width'] = int((float(days_left)/float(30))*100)
+
     cursor.close()
 
     return render_template('to_do.html', todos=todos, deadlines=deadlines)      # Render to_do page and pass tasks to be processed by Jinja script
-
-# -------------------------------------------------------- #
-# 	       Request for task list     	           #
-# -------------------------------------------------------- #
-@app.route('/todo/api/get_tasks', methods=['GET'])
-def get_tasks():
-    return jsonify({'tasks': [task for task in tasks]})
-
-# -------------------------------------------------------- #
-# 	       Request for specific task      	           #
-# -------------------------------------------------------- #
-@app.route('/todo/api/get_task/<int:task_id>', methods=['GET'])
-def get_task(task_id):
-    task = [task for task in tasks if task['id'] == task_id]
-    if len(task) == 0:
-        abort(404)
-    return jsonify({'task': task[0]})
 
 
 # -------------------------------------------------------- #
