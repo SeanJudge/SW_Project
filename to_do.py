@@ -56,7 +56,7 @@ def index():
         time_left = due_date - date_today
         days_left = time_left.days
         if days_left > 30:
-            deadline['date'] = str(30)
+            deadline['date'] = str(days_left)
             deadline['width'] = str(100)
         else:
             deadline['date'] = str(days_left)
