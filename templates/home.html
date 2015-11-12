@@ -11,10 +11,10 @@
     <title>Home</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="../css/home.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 
@@ -47,7 +47,7 @@
         <div class="col-md-12">
           <div class="calendar">  
             <p>Your Calendar</p>
-            <iframe src="https://www.google.com/calendar/embed?src=ucdconnect.ie_karcmdfn3gmqufjuel0lvenpng%40group.calendar.google.com&ctz=Europe/Dublin" style="border: 2" width="1200" height="500" frameborder="0" scrolling="no"></iframe>
+            <iframe src="https://www.google.com/calendar/embed?src=ucdconnect.ie_karcmdfn3gmqufjuel0lvenpng%40group.calendar.google.com&ctz=Europe/Dublin" style="border: 2" width="1200" height="500" scrolling="no"></iframe>
             <p><a class="btn btn-primary" href="https://www.google.com/calendar/render?cid=ucdconnect.ie_karcmdfn3gmqufjuel0lvenpng@group.calendar.google.com#main_7" role="button">Open Calendar &raquo;</a></p>
           </div>
         </div><!--/.col-md-12-->
@@ -57,7 +57,7 @@
 	<div class="col-md-6">
           <div class="tasks">  
             <p>Your Tasks<p>
-            <iframe src="https://www.google.com" style="border: 2" width="450" height="400"></iframe>
+            <iframe src="http://www.ucd.ie/" style="border: 2" width="450" height="400"></iframe>
             <p><a class="btn btn-danger" href="#" role="button">Open Tasks &raquo;</a></p>
           </div>
         </div><!--/.col-md-6-->
@@ -66,7 +66,9 @@
         <div class="col-md-6">
           <div class="lectures">  
             <p>Your Day's Lectures<p>
-            <iframe src="https://www.facebook.com" style="border: 2" width="450" height="400"></iframe>
+	    <br><br><br>
+            <p>Feature <br> Coming Soon!</p>
+	    <br><br><br><br>
             <p><a class="btn btn-warning" href="#" role="button">Open Lecture List &raquo;</a></p>
           </div>
         </div><!--/.col-md-6-->
@@ -78,16 +80,22 @@
         <div class="col-md-6">
           <div class="forums">  
             <p>Your Forum<p>
-            <iframe src="https://www.facebook.com" style="border: 2" width="450" height="400"></iframe>
+            <iframe src="http://www.ucd.ie/" style="border: 2" width="450" height="400"></iframe>
             <p><a class="btn btn-info" href="#" role="button">Open Forums &raquo;</a></p>
           </div>
-        </div><!--/.col-md-6-->
+        </div><!--/.col-md-6<!-->
 
+<!--
+            <iframe scrolling="no" src="http://www.w3schools.com/css/default.asp" style="border: 0px none; margin-left: -185px; height: 859px; margin-top: -533px; width: 926px;">
+            </iframe>
+
+	    Displays only part of a webpage!
+-->
 
         <div class="col-md-6">
           <div class="drive">  
             <p>Your Google Drive<p>
-            <iframe src="https://www.facebook.com" style="border: 2" width="450" height="400"></iframe>
+            <iframe src="https://drive.google.com/embeddedfolderview?id=0B4qm3OTMNt6Mfmc4OFZ3LUhHUFdDZ294Y3dhclY4MDltUTNOSTZmSTNuNHJxM0FPbFM5YmM#list" style="border: 2" width="450" height="400"></iframe>
             <p><a class="btn btn-success" href="#" role="button">Open Drive &raquo;</a></p>
           </div>
         </div><!--/.col-md-6-->

@@ -8,52 +8,68 @@
     <meta name="author" content="">
     <link rel="icon" href="../static/tab_logo.gif">
 
-    <title>Note Taking</title>
+    <title>Home</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="../css/note_taking.css" rel="stylesheet">
+    <link href="../css/home.css" rel="stylesheet">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
- 
-    <script type="text/javascript" src="../js/paint_tool.js"></script>
+
+
+<!-- 	Test 1 - Passing a variable to an Iframe source
+
+
+	<script type="text/javascript">
+	function init() {
+	var zipcode2 = window.location.search.substring(9);
+	var url = "http://wildlifedisease.nbii.gov/ecoregions/
+	index.jsp?zipcode=" + zipcode2;
+	document.getElementById("myframe").src = url;
+	}
+	</script>
+
+-->
+
 
   </head>
 
   <body>
 
-    <div class="site-wrapper">
 
-      <div class="site-wrapper-inner">
+<!-- 	Test 1 
 
-        <div class="cover-container">
+	<body onLoad="init()">
+	<iframe id="myframe" frameborder="0" height="100%" width="100%"
+	src=""></iframe>
+	</body>
 
-          <div class="masthead clearfix">
-            <div class="inner">
-              <h3 class="masthead-brand">Note Taking</h3>
-              <nav>
-                <ul class="nav masthead-nav">
-                  <li class="active"><a href="#">Home</a></li>
-                </ul>
-              </nav>
-            </div>
-          </div> 
-          
-        </div>
- 
-      </div>
+-->
 
 
-    <div id="canvasDiv" class=paint_tool>
-      <br>
-      <canvas id="canvasSignature" width="700px" height="700px" ></canvas>
-      <br>
-    </div>
+<!-- 	Test 2 - Iframe on just a small section of a page
+
+	<div style="border: 3px solid rgb(201, 0, 1); overflow: hidden; margin: 15px auto; max-width: 736px;">
+	<iframe scrolling="no" src="http://www.w3schools.com/css/default.asp" style="border: 0px none; margin-left: -185px; height: 59px; margin-top: -533px; width: 926px;">
+	</iframe>
+	</div>
+
+-->
 
 
-    </div>
+
+
+
+
+
+
+
+
+
+
+
 
 
    
@@ -64,5 +80,6 @@
     <script src="../../dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+  
   </body>
 </html>
