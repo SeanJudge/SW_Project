@@ -119,6 +119,7 @@
     <!--=========================== FORM FOR TASKS ===========================-->
     <div class="container">
         <div class="row col-lg-6">
+            <h2>Add new To-do</h2>
             <form class="form-horizontal" role="form" action="/todo/api/create_task" method="POST">
                 <div class="form-group col-lg-12">
                     <label for="title">Title</label>
@@ -133,13 +134,14 @@
         </div>
 
         <div class="row col-lg-6">
+            <h2>Add new Deadline</h2>
             <form class="form-horizontal" role="form" action="/todo/api/create_deadline" method="POST">
                 <div class="form-group col-lg-12">
                     <label for="title">Title</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="Enter title"/>
                 </div>
                 <div class="form-group col-lg-12">
-                    <label for="date">Description:</label>
+                    <label for="date">Due date:</label>
                     <input placeholder="Enter date" class="form-control" id="date" name="date" placeholder="Enter date"/>
                 </div>
                 <button id="addbutton2" type="submit" class="btn btn-default">Submit</button>
