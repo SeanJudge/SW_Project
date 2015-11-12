@@ -47,8 +47,8 @@ def index():
     todos = cursor.fetchall()
     cursor = get_db().execute("SELECT * FROM deadlines WHERE user=?", arguments)
     deadlines = cursor.fetchall()
+    cursor.close()
 
-    # Determining number of days left until deadline
     date_today = datetime.date.today()
     for deadline in deadlines:
         date_elems = deadline['date'].strip().split("/")
@@ -62,13 +62,11 @@ def index():
             deadline['date'] = str(days_left)
             deadline['width'] = int((float(days_left)/float(30))*100)
 
-    cursor.close()
-
     return render_template('to_do.html', todos=todos, deadlines=deadlines)      # Render to_do page and pass tasks to be processed by Jinja script
 
 
 # -------------------------------------------------------- #
-# 	       Request for to add new task   	           #
+# 	              Request to add new task   	           #
 # -------------------------------------------------------- #
 @app.route('/todo/api/create_task', methods=['POST'])
 def create_task():
@@ -84,7 +82,7 @@ def create_task():
     return redirect("/")
 
 # -------------------------------------------------------- #
-# 	       Request for to add new deadline   	           #
+# 	            Request to add new deadline   	           #
 # -------------------------------------------------------- #
 @app.route('/todo/api/create_deadline', methods=['POST'])
 def create_deadline():
@@ -140,6 +138,27 @@ def delete_task(task_id):
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
+
+# -------------------------------------------------------- #
+# 	       Determine width of deadline bars                #
+# -------------------------------------------------------- #
+def deadline_format(deadlines):
+        # Determining number of days left until deadline
+    date_today = datetime.date.today()
+    for deadline in deadlines:
+        date_elems = deadline['date'].strip().split("/")
+        due_date = datetime.date(int(date_elems[2]), int(date_elems[1]), int(date_elems[0]))
+        time_left = due_date - date_today
+        days_left = time_left.days
+        if days_left > 30:
+            deadline['date'] = str(days_left)
+            deadline['width'] = str(100)
+        else:
+            deadline['date'] = str(days_left)
+            deadline['width'] = int((float(days_left)/float(30))*100)
+
+    return(deadlines)
+
 
 # -------------------------------------------------------- #
 # 		           Main	         	           #
