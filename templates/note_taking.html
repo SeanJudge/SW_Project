@@ -11,10 +11,10 @@
     <title>Note Taking</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="../css/note_taking.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/note_taking.css') }}" rel="stylesheet">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
  
@@ -47,18 +47,40 @@
     <div class="container"> 
       <div class="row"> 
       
-        <div class="col-md-6">	
+        <div class="col-md-5">	
 	 
-        <div id="canvasDiv" class=paint_tool>
+<!--        <div id="canvasDiv" class=paint_tool>
           <canvas id="canvasSignature" width="500px" height="800px" ></canvas> 
           <p><a class="btn btn-lg btn-success" href="#" role="button">Save Notes</a></p>
+        </div>	
+<iframe src="https://docs.google.com/document/u/0/" style="width:596px; height:796px;"></iframe>										-->
+
+	
+
+          <div class=doc>
+            <iframe src="https://write-box.appspot.com/" style="width:596px; height:796px; scrolling="yes" "></iframe>
+          </div>
+        </div>		
+        
+
+
+        <div class="col-md-2">
         </div>
 
-        </div>
-           
-        <div class="col-md-6">
+<!--         <div class="col-md-5">
+          <div id="pdf">
+            <object width="400" height="500" type="application/pdf" data="/my_pdf.pdf?#zoom=85&scrollbar=0&toolbar=0&navpanes=0" id="pdf_content">
+              <p>Oops, your PDF cannot be displayed</p>
+            </object>
+          </div>
+        </div>     -->
+   
+   
+   
+   
+       <div class="col-md-5">
           <div class=pdf>
-            <iframe src="http://docs.google.com/gview?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true" style="width:600px; height:800px;"></iframe>
+            <iframe src="http://docs.google.com/gview?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true" style="width:596px; height:796px;"></iframe>
           </div>
         </div>
       </div>
