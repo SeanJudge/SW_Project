@@ -124,13 +124,15 @@ def toggle_task(task_id):
 # -------------------------------------------------------- #
 # 	       Request to delete a task   	           #
 # -------------------------------------------------------- #
-@app.route('/todo/api/delete_task/<int:task_id>', methods=['DELETE'])
-def delete_task(task_id):
-    task = [task for task in tasks if task['id'] == task_id]
-    if len(task) == 0:
-        abort(404)
-    tasks.remove(task[0])
-    return jsonify({'result': True})
+@app.route('/todo/api/delete_task/<int:deadline_id>', methods=['DELETE'])
+def delete_task(deadline_id):
+
+    arguments = (USER, deadline_id)
+    cursor = get_db().execute("DELETE FROM deadlines WHERE user=? AND id=?", arguments)
+    cursor.close()
+
+    return redirect("/")
+
 
 # -------------------------------------------------------- #
 # 	       Error handler for error 404                 #

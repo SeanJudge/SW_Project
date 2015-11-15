@@ -221,7 +221,7 @@ def tasks():
 # -------------------------------------------------------- #
 # 	              Request to add new task   	           #
 # -------------------------------------------------------- #
-@app.route('/todo/api/create_task', methods=['POST'])
+@app.route('/tasks/api/create_task', methods=['POST'])
 def create_task():
     # Abort if request doesn't exist
     if not request.form or not 'title' in request.form:
@@ -237,7 +237,7 @@ def create_task():
 # -------------------------------------------------------- #
 # 	            Request to add new deadline   	           #
 # -------------------------------------------------------- #
-@app.route('/todo/api/create_deadline', methods=['POST'])
+@app.route('/tasks/api/create_deadline', methods=['POST'])
 def create_deadline():
     # Abort if request doesn't exist
     if not request.form or not 'title' in request.form:
@@ -254,7 +254,7 @@ def create_deadline():
 # -------------------------------------------------------- #
 # 	       Toggle a task checkbox   	           #
 # -------------------------------------------------------- #
-@app.route('/todo/api/toggle_task/<int:task_id>', methods=['GET'])
+@app.route('/tasks/api/toggle_task/<int:task_id>', methods=['GET'])
 def toggle_task(task_id):
 
     arguments = (USER, task_id)
@@ -269,6 +269,20 @@ def toggle_task(task_id):
 
     arguments = (new_status, USER, task_id)
     cursor = get_db().execute("UPDATE todos SET status=? WHERE user=? AND id=?", arguments)
+    get_db().commit()
+    cursor.close()
+
+    return redirect("/tasks")
+
+# -------------------------------------------------------- #
+# 	       Request to delete a task   	           #
+# -------------------------------------------------------- #
+@app.route('/tasks/api/delete_deadline/<int:deadline_id>', methods=['GET'])
+def delete_deadline(deadline_id):
+
+    print("Deadline_id = ", deadline_id)
+    arguments = (USER, deadline_id)
+    cursor = get_db().execute("DELETE FROM deadlines WHERE user=? AND id=?", arguments)
     get_db().commit()
     cursor.close()
 
