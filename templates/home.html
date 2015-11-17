@@ -22,6 +22,8 @@
   </head>
 
   <body>
+  
+    <!--=========================== NAVBAR ===========================-->
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -38,29 +40,40 @@
           <ul class="nav navbar-nav">
             <li class="active"><a href="/home">Home</a></li>
             <li><a href="/tasks">Tasks</a></li>
-            <li><a href="#Drive">Drive</a></li>
+            <li><a href="/drive">Drive</a></li>
             <li><a href="/note_taking">Note-taking</a></li>
-            <li><a href="#Forum">Forum</a></li>
+            <li><a href="/forums">Forum</a></li>
           </ul>
         </div> <!--/.nav-collapse -->
       </div>
     </nav>
 
-    <div class="container"> 
+   <div class="container"> 
+     
+     <!--=========================== Calendar ===========================-->
      
       <div class="row top-buffer">
         <div class="col-md-12">
           <div class="calendar">
             <p>Your Calendar</p>
-            <iframe src="https://www.google.com/calendar/embed?src=ucdconnect.ie_karcmdfn3gmqufjuel0lvenpng%40group.calendar.google.com&ctz=Europe/Dublin" style="border: 2" width="1200" height="500" scrolling="no"></iframe>
+            <div class="row top-buffer"></div>
+            <iframe src="https://www.google.com/calendar/embed?src=ucdconnect.ie_karcmdfn3gmqufjuel0lvenpng%40group.calendar.google.com&showTitle=0&amp;showNav=0&amp;showPrint=0&amp;showCalendars=0&amp;showTz=0&amp;mode=WEEK&amp;height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;&amp;color=%232952A3&amp;ctz=Europe%2FDublin" style="border: 2" width="1200" height="500" scrolling="no"></iframe>
             <p><a class="btn btn-primary" href="https://www.google.com/calendar/render?cid=ucdconnect.ie_karcmdfn3gmqufjuel0lvenpng@group.calendar.google.com#main_7" role="button">Open Calendar &raquo;</a></p>
+            
+            
+            
           </div>
         </div><!--/.col-md-12-->
       </div>
+      
+      <div class="row top-buffer"></div>
 
-      <div class="row top-buffer">
+      <!--=========================== Tasks ===========================-->
+
+      <div class="row top-buffer"></div>
         <div class="col-md-6">
-          <h2>Your Tasks</h2>
+          <div class="tasks"> <p> Your Tasks </p> </div>
+          <div class="row top-buffer"></div>
           <table id="thetable" class="table table-striped">
             <tr>
               <th>ID</th>
@@ -85,45 +98,54 @@
             </tr>
             {% endfor %}
           </table>
-          <p><a class="btn btn-success" href="/tasks" role="button">Tasks &raquo;</a></p>
+          <div class="tasks"> <p><a class="btn btn-danger" href="/tasks" role="button">Tasks &raquo;</a></p> </div>
         </div><!--/.col-md-6-->
-
-        <div class="col-md-6">
-          <div class="lectures">
-            <p>Your Day's Lectures<p>
-            <br><br><br>
-            <p>Feature <br> Coming Soon!</p>
-            <br><br><br><br>
-            <p><a class="btn btn-warning" href="#" role="button">Open Lecture List &raquo;</a></p>
-          </div>
-        </div><!--/.col-md-6-->
-
-      </div>
-
-      <div class="row top-buffer">
+        
+        <!--=========================== Forum ===========================-->
 
         <div class="col-md-6">
           <div class="forums">  
             <p>Your Forum<p>
+            <div class="row top-buffer"></div>
             <iframe src="http://localhost/phpBB3/" style="border: 2" width="450" height="400"></iframe>
             <p><a class="btn btn-info" href="http://localhost/phpBB3/" role="button">Open Forums &raquo;</a></p>
           </div>
-        </div><!--/.col-md-6<!-->
+        </div><!--/.col-md-6<!--> 
 
-<!--
-            <iframe scrolling="no" src="http://www.w3schools.com/css/default.asp" style="border: 0px none; margin-left: -185px; height: 859px; margin-top: -533px; width: 926px;">
-            </iframe>
+        <div class="row top-buffer"></div>
+        <div class="row top-buffer"></div>
 
-	    Displays only part of a webpage!
--->
+        <!--=========================== Note Taking ===========================--
+
+        <div class="col-md-6">
+          <div class="lectures">
+            <p>Your Notes<p>
+            <div class="row top-buffer"></div>
+            <br>
+            <a href="/note_taking">
+            <img src = "../static/notepad.jpg"></a>
+            <div class="row top-buffer"></div>
+            <div class="row top-buffer"></div>
+            <br>
+            <p><a class="btn btn-warning" href="/note_taking" role="button">Open Note Taking &raquo;</a></p>
+          </div>
+        </div><!--/.col-md-6--
+
+
+        <!--=========================== Drive ===========================--
 
         <div class="col-md-6">
           <div class="drive">  
             <p>Your Google Drive<p>
+            <div class="row top-buffer"></div>
             <iframe src="https://drive.google.com/embeddedfolderview?id=0B4qm3OTMNt6Mfmc4OFZ3LUhHUFdDZ294Y3dhclY4MDltUTNOSTZmSTNuNHJxM0FPbFM5YmM#list" style="border: 2" width="450" height="400"></iframe>
-            <p><a class="btn btn-success" href="https://drive.google.com/embeddedfolderview?id=0B4qm3OTMNt6Mfmc4OFZ3LUhHUFdDZ294Y3dhclY4MDltUTNOSTZmSTNuNHJxM0FPbFM5YmM#list" role="button">Open Drive &raquo;</a></p>
+            <p><a class="btn btn-success" href="/drive" role="button">Open Drive &raquo;</a></p>
           </div>
         </div><!--/.col-md-6-->
+   
+      <div class="row top-buffer"></div>
+      <div class="row top-buffer"></div>
+   
    
       </div>  
 

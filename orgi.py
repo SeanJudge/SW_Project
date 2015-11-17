@@ -56,9 +56,6 @@ def close_connection(exception):
 
 USER = 0
 
-# Default user for database until I can distinguish between users
-#USER = 1
-
 #	+-----------------------------------------------------------------------+
 #	| For database use in the terminal:					                    |
 #	| 	run: sqlite3	  						                            |
@@ -332,6 +329,14 @@ def deadline_format(deadlines):
 
     return(deadlines)
 
+
+# -------------------------------------------------------------------------------------- #
+# 				                  Drive                      					 #
+# -------------------------------------------------------------------------------------- #
+
+@app.route('/drive')					                # Home Address	
+def drive():
+    return render_template('drive.html')
 
 # -------------------------------------------------------------------------------------- #
 # 					                  main      					                	 #
