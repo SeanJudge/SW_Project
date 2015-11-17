@@ -50,7 +50,7 @@
      
       <div class="row top-buffer">
         <div class="col-md-12">
-          <div class="calendar">  
+          <div class="calendar">
             <p>Your Calendar</p>
             <iframe src="https://www.google.com/calendar/embed?src=ucdconnect.ie_karcmdfn3gmqufjuel0lvenpng%40group.calendar.google.com&ctz=Europe/Dublin" style="border: 2" width="1200" height="500" scrolling="no"></iframe>
             <p><a class="btn btn-primary" href="https://www.google.com/calendar/render?cid=ucdconnect.ie_karcmdfn3gmqufjuel0lvenpng@group.calendar.google.com#main_7" role="button">Open Calendar &raquo;</a></p>
@@ -74,7 +74,7 @@
               <td>{{ todo.title }}</td>
               <td>{{ todo.desc }}</td>
               <td>
-                <a href="/todo/api/toggle_task/{{ todo.id }}">
+                <a href="/tasks/api/toggle_task/{{ todo.id }}">
                   {% if todo.status and todo.status == 1 %}
                   <i class="fa fa-check-square-o"></i>
                   {% else %}

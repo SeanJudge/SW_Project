@@ -289,6 +289,20 @@ def delete_deadline(deadline_id):
     return redirect("/tasks")
 
 # -------------------------------------------------------- #
+# 	       Request to delete a _todo   	                    #
+# -------------------------------------------------------- #
+@app.route('/tasks/api/delete_todo/<int:todo_id>', methods=['GET'])
+def delete_todo(todo_id):
+
+    print("todo_id = ", todo_id)
+    arguments = (USER, todo_id)
+    cursor = get_db().execute("DELETE FROM todos WHERE user=? AND id=?", arguments)
+    get_db().commit()
+    cursor.close()
+
+    return redirect("/tasks")
+
+# -------------------------------------------------------- #
 # 	       Error handler for error 404                 #
 # -------------------------------------------------------- #
 @app.errorhandler(404)
@@ -308,7 +322,7 @@ def deadline_format(deadlines):
         days_left = time_left.days
         if days_left > 30:
             deadline['date'] = str(days_left)
-            deadline['width'] = str(100)
+            deadline['width'] = int(100)
         else:
             deadline['date'] = str(days_left)
             deadline['width'] = int((float(days_left)/float(30))*100)

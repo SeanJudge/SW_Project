@@ -119,14 +119,13 @@
       <p>Break it down and get it done</p> 
       <table id="thetable" class="table table-striped">
         <tr>
-          <th>ID</th>
           <th>Title</th>
           <th>Description</th>
           <th>Done?</th>
+          <th></th>
         </tr>
         {% for todo in todos %}
         <tr>
-          <td>{{ todo.id }}</td>
           <td>{{ todo.title }}</td>
           <td>{{ todo.desc }}</td>
           <td>
@@ -137,6 +136,11 @@
               <i class="fa fa-square-o"></i>
             {% endif %}
             </a>
+          </td>
+          <td>
+              <a href="/tasks/api/delete_todo/{{ todo.id }}">
+                  <button type="submit" class="close">&times</button>
+              </a>
           </td>
         </tr>
         {% endfor %}
