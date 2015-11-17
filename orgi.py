@@ -55,7 +55,7 @@ def close_connection(exception):
         db.close()
 
 # Default user for database until I can distinguish between users
-USER = 1
+USER = 0
 
 #	+-----------------------------------------------------------------------+
 #	| For database use in the terminal:					                    |
@@ -123,6 +123,7 @@ def signin():
         return redirect('/login')
     else:
         print ('Has a user')
+        USER = user[0]
         return redirect('/google_auth')
 
 
@@ -308,13 +309,21 @@ def deadline_format(deadlines):
         days_left = time_left.days
         if days_left > 30:
             deadline['date'] = str(days_left)
-            deadline['width'] = str(100)
+            deadline['width'] = int(100)
         else:
             deadline['date'] = str(days_left)
             deadline['width'] = int((float(days_left)/float(30))*100)
 
     return(deadlines)
 
+
+# -------------------------------------------------------------------------------------- #
+# 				                  Drive                      					 #
+# -------------------------------------------------------------------------------------- #
+
+@app.route('/drive')					                # Home Address	
+def drive():
+    return render_template('drive.html')
 
 # -------------------------------------------------------------------------------------- #
 # 					                  main      					                	 #
