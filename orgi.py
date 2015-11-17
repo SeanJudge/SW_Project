@@ -54,8 +54,10 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+USER = 0
+
 # Default user for database until I can distinguish between users
-USER = 1
+#USER = 1
 
 #	+-----------------------------------------------------------------------+
 #	| For database use in the terminal:					                    |
@@ -123,6 +125,7 @@ def signin():
         return redirect('/login')
     else:
         print ('Has a user')
+        USER = flask.session['user'] = user[0]
         return redirect('/google_auth')
 
 
