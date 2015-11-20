@@ -111,13 +111,14 @@ def signin():
         return (rv[0] if rv else None) if one else rv
 
     userX = query_db('select * from users where email = ? and password = ?',[email, password], one=True)
-    
+
     cursor = get_db().execute("select * from users where email = ? and password = ?",[email, password])
     user = cursor.fetchall()
     cursor.close()
     
     if userX is None:
         print ('No such user')
+        print(flask.session['user'])
         return redirect('/login')
     else:
         print ('Has a user')
@@ -126,6 +127,12 @@ def signin():
         print (USER)
         flask.session['user'] = USER
         return redirect('/google_auth')
+
+@app.route('/signout')
+def signout():
+    if 'user' in flask.session:
+        flask.session.clear()
+    return redirect('/')
 
 
     # Only user is: sean@hotmail.com  with a password of: jeep

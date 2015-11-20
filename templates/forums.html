@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../static/tab_logo.gif">
 
-    <title>Home</title>
+    <title>Forum</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
@@ -42,6 +42,9 @@
             <li><a href="/drive">Drive</a></li>
             <li><a href="/note_taking">Note-taking</a></li>
             <li class="active"><a href="/forums">Forum</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/signout"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
           </ul>
         </div> <!--/.nav-collapse -->
       </div>
