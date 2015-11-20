@@ -101,7 +101,6 @@ def signin():
     print("The email address is '" + email + "'")
     print("The password address is '" + password + "'")
 
-    '''
     db = sqlite3.connect("orgy.db")
     db.row_factory = sqlite3.Row
 
@@ -111,29 +110,35 @@ def signin():
         cur.close()
         return (rv[0] if rv else None) if one else rv
 
-    user = query_db('select * from users where email = ? and password = ?',[email, password], one=True)
-    '''
+    userX = query_db('select * from users where email = ? and password = ?',[email, password], one=True)
+    
     cursor = get_db().execute("select * from users where email = ? and password = ?",[email, password])
     user = cursor.fetchall()
     cursor.close()
-
-    if user is None:
+    
+    if userX is None:
         print ('No such user')
         return redirect('/login')
     else:
         print ('Has a user')
-        USER = flask.session['user'] = user[0]
+        global USER
+        USER = (user[0]['id'])
+        print (USER)
+        flask.session['user'] = USER
         return redirect('/google_auth')
 
 
-    # Only user is: sean@hotmail.com  with a passoword of: jeep
+    # Only user is: sean@hotmail.com  with a password of: jeep
 
 # -------------------------------------------------------------------------------------- #
 # 				                    Google API Handling				                 	 #
 # -------------------------------------------------------------------------------------- #  
 
+
 @app.route('/google_auth')
 def google_auth():
+  if 'user' not in flask.session:
+    return redirect('/login')
   if 'credentials' not in flask.session:
     return flask.redirect(flask.url_for('oauth2callback'))
   credentials = client.OAuth2Credentials.from_json(flask.session['credentials'])
@@ -171,7 +176,10 @@ def oauth2callback():
 
 @app.route('/home')					                # Home Address	
 def home():
+    if 'user' not in flask.session:
+      return redirect('/login')
     arguments = (USER,)
+    print (arguments)
     cursor = get_db().execute("SELECT * FROM todos WHERE user=?", arguments)
     todos = cursor.fetchall()
     cursor = get_db().execute("SELECT * FROM deadlines WHERE user=?", arguments)
@@ -189,6 +197,8 @@ def home():
 
 @app.route('/forums')					                # Home Address	
 def forums():
+    if 'user' not in flask.session:
+      return redirect('/login')
     return render_template('forums.html')
 
 
@@ -198,6 +208,8 @@ def forums():
 
 @app.route('/note_taking')					                # Home Address	
 def note_taking():
+    if 'user' not in flask.session:
+      return redirect('/login')
     return render_template('note_taking.html')
 
 # -------------------------------------------------------------------------------------- #
@@ -206,6 +218,8 @@ def note_taking():
 
 @app.route('/tasks', methods=['GET'])
 def tasks():
+    if 'user' not in flask.session:
+      return redirect('/login')
     # Extract data from database and store todos in list
     arguments = (USER,)
     cursor = get_db().execute("SELECT * FROM todos WHERE user=?", arguments)
@@ -223,6 +237,8 @@ def tasks():
 # -------------------------------------------------------- #
 @app.route('/tasks/api/create_task', methods=['POST'])
 def create_task():
+    if 'user' not in flask.session:
+      return redirect('/login')
     # Abort if request doesn't exist
     if not request.form or not 'title' in request.form:
         abort(400)
@@ -239,6 +255,8 @@ def create_task():
 # -------------------------------------------------------- #
 @app.route('/tasks/api/create_deadline', methods=['POST'])
 def create_deadline():
+    if 'user' not in flask.session:
+      return redirect('/login')
     # Abort if request doesn't exist
     if not request.form or not 'title' in request.form:
         abort(400)
@@ -256,7 +274,8 @@ def create_deadline():
 # -------------------------------------------------------- #
 @app.route('/tasks/api/toggle_task/<int:task_id>', methods=['GET'])
 def toggle_task(task_id):
-
+    if 'user' not in flask.session:
+      return redirect('/login')
     arguments = (USER, task_id)
     cursor = get_db().execute("SELECT status FROM todos WHERE user=? AND id=?", arguments)
     todo = cursor.fetchall()
@@ -279,7 +298,8 @@ def toggle_task(task_id):
 # -------------------------------------------------------- #
 @app.route('/tasks/api/delete_deadline/<int:deadline_id>', methods=['GET'])
 def delete_deadline(deadline_id):
-
+    if 'user' not in flask.session:
+      return redirect('/login')
     print("Deadline_id = ", deadline_id)
     arguments = (USER, deadline_id)
     cursor = get_db().execute("DELETE FROM deadlines WHERE user=? AND id=?", arguments)
@@ -336,6 +356,8 @@ def deadline_format(deadlines):
 
 @app.route('/drive')					                # Home Address	
 def drive():
+    if 'user' not in flask.session:
+      return redirect('/login')
     return render_template('drive.html')
 
 # -------------------------------------------------------------------------------------- #
