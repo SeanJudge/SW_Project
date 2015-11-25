@@ -99,7 +99,7 @@ def signin():
     email = request.form['email']
     password = request.form['password']
     print("The email address is '" + email + "'")
-    print("The password address is '" + password + "'")
+    print("The password is '" + password + "'")
 
     db = sqlite3.connect("orgy.db")
     db.row_factory = sqlite3.Row
@@ -136,6 +136,29 @@ def signout():
 
 
     # Only user is: sean@hotmail.com  with a password of: jeep
+
+
+# -------------------------------------------------------------------------------------- #
+# 				                     SignUp	                         					 #
+# -------------------------------------------------------------------------------------- #
+
+@app.route('/signup')					                # Default Address	
+def signup():
+    return render_template('signup.html')
+
+@app.route('/register', methods = ['POST'])
+def register():
+    email = request.form['email']
+    password = request.form['password']
+    print("The email address is '" + email + "'")
+    print("The password is '" + password + "'")
+
+    db = sqlite3.connect("orgy.db")
+    
+    g.db.execute("INSERT INTO users VALUES (?, ?)", [email, password])
+    g.db.commit()
+    return redirect('/')
+
 
 # -------------------------------------------------------------------------------------- #
 # 				                    Google API Handling				                 	 #
@@ -207,7 +230,7 @@ def forums():
     if 'user' not in flask.session:
       return redirect('/login')
     return render_template('forums.html')
-
+    
 
 # -------------------------------------------------------------------------------------- #
 # 				                  Note Taking                       					 #
@@ -218,6 +241,17 @@ def note_taking():
     if 'user' not in flask.session:
       return redirect('/login')
     return render_template('note_taking.html')
+
+
+# -------------------------------------------------------------------------------------- #
+# 				                     PDF Viewer                        					 #
+# -------------------------------------------------------------------------------------- #
+
+@app.route('/pdf')					                      # Home Address	
+def pdf():
+    #if 'user' not in flask.session:
+      #return redirect('/login')
+    return render_template('pdf.js/web/viewer.html')
 
 # -------------------------------------------------------------------------------------- #
 # 				                       Tasks                          					 #
@@ -358,7 +392,7 @@ def deadline_format(deadlines):
 
 
 # -------------------------------------------------------------------------------------- #
-# 				                  Drive                      					 #
+# 				                  Drive                                					 #
 # -------------------------------------------------------------------------------------- #
 
 @app.route('/drive')					                # Home Address	
