@@ -19,6 +19,8 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
  
     <script type="text/javascript" src="../js/paint_tool.js"></script>
+    
+    <script type="text/javascript" src="../js/build/pdf.js"></script>
 
   </head>
 
@@ -77,16 +79,21 @@
         <div class="col-md-2">
         </div>
 
-<!--         <div class="col-md-5">
-          <div id="pdf">
-            <object width="400" height="500" type="application/pdf" data="/my_pdf.pdf?#zoom=85&scrollbar=0&toolbar=0&navpanes=0" id="pdf_content">
-              <p>Oops, your PDF cannot be displayed</p>
-            </object>
+   
+       <!--=========================== PDF ===========================-->
+   
+       <div class="col-md-5">
+          <div class=pdf>
+           <iframe src="http://127.0.0.1:5000/web/viewer.html" style="width:596px; height:796px;"></iframe>
           </div>
-        </div>     -->
+        </div>
+      </div>
+         
+    </div> <!-- /.container -->
    
    
-      <!--=========================== PDF ===========================-->
+   
+      <!--=========================== PDF ===========================--
    
        <div class="col-md-5">
           <div class=pdf>
