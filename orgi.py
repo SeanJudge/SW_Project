@@ -1,4 +1,4 @@
-from flask import Flask				                # Import the Flask library
+#from flask import Flask				                # Import the Flask library
 from flask import render_template		            # Importing from templates
 from flask import request
 from flask import redirect
@@ -12,13 +12,14 @@ import datetime
 from apiclient import discovery
 from oauth2client import client
 import sqlite3		    			                # SQL Lite
-#import requests
-#import urllib
-#import urllib2
-#import json
-#import re
-#from pydrive.auth import GoogleAuth
-#from pydrive.drive import GoogleDrive
+import requests
+import urllib
+import urllib2
+import json
+import re
+import os
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
 
 app = flask.Flask(__name__)				                # Creates a new website in a variable
 
@@ -224,6 +225,8 @@ def home():
 
     deadlines = deadline_format(deadlines_unformatted)
 
+    sync()
+
     return render_template('home.html', todos=todos, deadline=deadlines)
 
 
@@ -368,6 +371,100 @@ def delete_todo(todo_id):
     cursor.close()
 
     return redirect("/tasks")
+
+# -------------------------------------------------------- #
+# 	       Auto-download method     	                    #
+# -------------------------------------------------------- #
+@app.route('/sync')
+def sync():
+    gauth = GoogleAuth()
+
+    # Possibly read in mycreds.txt from database and create a new one for each user. This means the user doesn't have to autheticate the upload everytime
+    gauth.LoadCredentialsFile("mycreds.txt")
+
+    if gauth.credentials is None:
+        gauth.LocalWebserverAuth()
+    elif gauth.access_token_expired:
+        gauth.Refresh()
+    else:
+        gauth.Authorize()
+    # Save the current credentials to a file this could be changed to the database instead
+    gauth.SaveCredentialsFile("mycreds.txt")
+    drive = GoogleDrive(gauth)
+
+    # Pull these in from the database
+    token = 'ad9775a170f6e8ec5d04f87eacc84a11'
+    courseid = '2'
+
+    response = urllib2.urlopen('http://scanlon.ucd.ie/~user17/moodle/webservice/rest/server.php?wstoken='+token+'&wsfunction=core_course_get_contents&courseid='+courseid+'&moodlewsrestformat=json')
+    html = response.read()
+    data = html.decode("utf-8")
+    data = json.loads(data)
+
+    url_next = 0
+    download_urls = []
+    file_name = []
+
+    file_list = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+    for item in file_list:
+        if not item['title'].find('Orgi'):
+            Orgi_id = item['id']
+
+    try:
+        Orgi_id
+    except:
+        folder = drive.CreateFile({'title': 'Orgi',
+        "mimeType": "application/vnd.google-apps.folder"})
+        folder.Upload()
+        file_list = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+        for item in file_list:
+            if not item['title'].find('Orgi'):
+                Orgi_id = item['id']
+    else:
+        print ('Folder exists')
+
+
+    for part in (str(data[1]).rsplit()):
+        if url_next == 1:
+            url_next = 0
+            url = part[2:-2]
+            start_parse = (url.find('content/')) + 8
+            start_filename = start_parse + url[start_parse:].find('/') + 1
+            file_name.append((url[start_filename:(url.find('?forcedownload=1'))]))
+            download_urls.append(url+"&token="+token)
+        if part == 'u\'fileurl\':':
+            url_next = 1
+
+    i = 0
+    end_of_list = len(download_urls)
+
+    _q = {'q': "'{}' in parents and trashed=false".format(Orgi_id)}
+    file_upload_check = drive.ListFile(_q).GetList()
+    file_list_Orgi = []
+    for current_file in file_upload_check:
+        file_list_Orgi.append(current_file['title'])
+
+    if not os.path.exists('Downloads'):
+        os.makedirs('Downloads')
+
+    while i < end_of_list:
+        response = urllib2.urlopen(download_urls[i])
+        html = response.read()
+        print html
+        f = open('Downloads/'+file_name[i], 'wb')
+        f.write(html)
+        f.close()
+
+        if ((file_name[i]) in file_list_Orgi):
+            print ("File exists")
+        else:
+            file_to_upload = drive.CreateFile({'title':file_name[i],"parents":[{"id":Orgi_id}]})
+            file_to_upload.SetContentFile('Downloads/'+file_name[i])
+            file_to_upload.Upload()
+
+        i += 1
+
+    return redirect("/home")
 
 # -------------------------------------------------------- #
 # 	       Error handler for error 404                 #
