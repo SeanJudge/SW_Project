@@ -12,7 +12,13 @@ import datetime
 from apiclient import discovery
 from oauth2client import client
 import sqlite3		    			                # SQL Lite
-
+#import requests
+#import urllib
+#import urllib2
+#import json
+#import re
+#from pydrive.auth import GoogleAuth
+#from pydrive.drive import GoogleDrive
 
 app = flask.Flask(__name__)				                # Creates a new website in a variable
 
