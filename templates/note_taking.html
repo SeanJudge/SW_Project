@@ -17,15 +17,17 @@
     <link href="{{ url_for('static', filename='css/note_taking.css') }}" rel="stylesheet">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
- 
+
     <script type="text/javascript" src="../js/paint_tool.js"></script>
-    
+
     <script type="text/javascript" src="../js/build/pdf.js"></script>
+
+    <script type="text/javascript" src="../js/web/viewer.js"></script>
 
   </head>
 
   <body>
-  
+
     <!--=========================== NAVBAR ===========================-->
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -50,62 +52,65 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/signout"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
           </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/sync"><span class="glyphicon glyphicon-refresh"></span>  Sync</a></li>
+          </ul>
         </div> <!--/.nav-collapse -->
       </div>
     </nav>
 
-    <div class="container"> 
-      <div class="row"> 
-      
+    <div class="container">
+      <div class="row">
+
       <!--=========================== Note File ===========================-->
-      
-        <div class="col-md-5">	
-	 
+
+        <div class="col-md-5">
+
 <!--        <div id="canvasDiv" class=paint_tool>
-          <canvas id="canvasSignature" width="500px" height="800px" ></canvas> 
+          <canvas id="canvasSignature" width="500px" height="800px" ></canvas>
           <p><a class="btn btn-lg btn-success" href="#" role="button">Save Notes</a></p>
-        </div>	
+        </div>
 <iframe src="https://docs.google.com/document/u/0/" style="width:596px; height:796px;"></iframe>										-->
 
-	
+
 
           <div class=doc>
             <iframe src="https://write-box.appspot.com/" style="width:596px; height:796px; scrolling="yes" "></iframe>
           </div>
-        </div>		
-        
+        </div>
+
 
 
         <div class="col-md-2">
         </div>
 
-   
-       <!--=========================== PDF ===========================-->
-   
+
+       <!--=========================== PDF ===========================--
+
        <div class="col-md-5">
           <div class=pdf>
-           <iframe src="http://127.0.0.1:5000/web/viewer.html" style="width:596px; height:796px;"></iframe>
+           <iframe src="js/web/viewer.html" style="width:596px; height:796px;"></iframe>
           </div>
         </div>
       </div>
-         
+
     </div> <!-- /.container -->
-   
-   
-   
-      <!--=========================== PDF ===========================--
-   
+
+
+
+      <!--=========================== PDF ===========================-->
+
        <div class="col-md-5">
           <div class=pdf>
             <iframe src="http://docs.google.com/gview?url=http://infolab.stanford.edu/pub/papers/google.pdf&embedded=true" style="width:596px; height:796px;"></iframe>
           </div>
         </div>
       </div>
-         
+
     </div> <!-- /.container -->
 
 
-   
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -113,6 +118,6 @@
     <script src="../../dist/js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-  
+
   </body>
 </html>

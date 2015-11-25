@@ -184,15 +184,14 @@ def google_auth():
   else:
     http_auth = credentials.authorize(httplib2.Http())
     drive_service = discovery.build('drive', 'v2', http_auth)
-    files = drive_service.files().list().execute() 
+    files = drive_service.files().list().execute()
     return redirect('/home')
-    #return "You have accessed the drive successfully ------- "#+json.dumps(files)
 
 
 @app.route('/oauth2callback')
 def oauth2callback():
   flow = client.flow_from_clientsecrets(
-      'client_secrets.json',
+      'client_secrets_old.json',
       scope='https://www.googleapis.com/auth/drive.metadata.readonly',
       redirect_uri=flask.url_for('oauth2callback', _external=True))
   #flow.params['include_granted_scopes'] = True
@@ -225,9 +224,49 @@ def home():
 
     deadlines = deadline_format(deadlines_unformatted)
 
-    sync()
+    gauth = GoogleAuth()
 
-    return render_template('home.html', todos=todos, deadline=deadlines)
+    # Possibly read in mycreds.txt from database and create a new one for each user. This means the user doesn't have to autheticate the upload everytime
+    gauth.LoadCredentialsFile("mycreds.txt")
+
+    if gauth.credentials is None:
+        gauth.LocalWebserverAuth()
+    elif gauth.access_token_expired:
+        gauth.Refresh()
+    else:
+        gauth.Authorize()
+    # Save the current credentials to a file this could be changed to the database instead
+    gauth.SaveCredentialsFile("mycreds.txt")
+    drive = GoogleDrive(gauth)
+
+    file_list = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+    for item in file_list:
+        if not item['title'].find('Orgi'):
+            Orgi_id = item['id']
+
+    try:
+        Orgi_id
+    except:
+        folder = drive.CreateFile({'title': 'Orgi',
+        "mimeType": "application/vnd.google-apps.folder"})
+        folder.Upload()
+        file_list = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+        for item in file_list:
+            if not item['title'].find('Orgi'):
+                Orgi_id = item['id']
+    else:
+        print ('Folder exists')
+
+    _q = {'q': "'{}' in parents and trashed=false".format(Orgi_id)}
+    file_upload_check = drive.ListFile(_q).GetList()
+    file_list_Orgi = []
+    for current_file in file_upload_check:
+        file_list_Orgi.append(current_file['title'])
+    print(file_list_Orgi)
+
+    #print os.system('pwd')
+
+    return render_template('home.html', todos=todos, deadline=deadlines, file_list=file_list_Orgi)
 
 
 # -------------------------------------------------------------------------------------- #
@@ -401,6 +440,8 @@ def sync():
     data = html.decode("utf-8")
     data = json.loads(data)
 
+    print json.dumps(data, indent=4, sort_keys=True)
+
     url_next = 0
     download_urls = []
     file_name = []
@@ -423,17 +464,23 @@ def sync():
     else:
         print ('Folder exists')
 
-
-    for part in (str(data[1]).rsplit()):
-        if url_next == 1:
-            url_next = 0
-            url = part[2:-2]
-            start_parse = (url.find('content/')) + 8
-            start_filename = start_parse + url[start_parse:].find('/') + 1
-            file_name.append((url[start_filename:(url.find('?forcedownload=1'))]))
-            download_urls.append(url+"&token="+token)
-        if part == 'u\'fileurl\':':
-            url_next = 1
+    j = 0
+    #max= json.loads(data)
+    #max= len(max['0'])
+    #print max
+    while j < len(data):
+        for part in (str(data[j]).rsplit()):
+            if url_next == 1:
+                url_next = 0
+                url = part[2:-2]
+                start_parse = (url.find('content/')) + 8
+                start_filename = start_parse + url[start_parse:].find('/') + 1
+                file_name.append((url[start_filename:(url.find('?forcedownload=1'))]))
+                download_urls.append(url+"&token="+token)
+            if part == 'u\'fileurl\':':
+                url_next = 1
+        j = j+1
+        print file_name
 
     i = 0
     end_of_list = len(download_urls)
@@ -450,7 +497,6 @@ def sync():
     while i < end_of_list:
         response = urllib2.urlopen(download_urls[i])
         html = response.read()
-        print html
         f = open('Downloads/'+file_name[i], 'wb')
         f.write(html)
         f.close()
@@ -502,7 +548,48 @@ def deadline_format(deadlines):
 def drive():
     if 'user' not in flask.session:
       return redirect('/login')
-    return render_template('drive.html')
+
+    gauth = GoogleAuth()
+
+    # Possibly read in mycreds.txt from database and create a new one for each user. This means the user doesn't have to autheticate the upload everytime
+    gauth.LoadCredentialsFile("mycreds.txt")
+
+    if gauth.credentials is None:
+        gauth.LocalWebserverAuth()
+    elif gauth.access_token_expired:
+        gauth.Refresh()
+    else:
+        gauth.Authorize()
+    # Save the current credentials to a file this could be changed to the database instead
+    gauth.SaveCredentialsFile("mycreds.txt")
+    drive = GoogleDrive(gauth)
+
+    file_list = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+    for item in file_list:
+        if not item['title'].find('Orgi'):
+            Orgi_id = item['id']
+
+    try:
+        Orgi_id
+    except:
+        folder = drive.CreateFile({'title': 'Orgi',
+        "mimeType": "application/vnd.google-apps.folder"})
+        folder.Upload()
+        file_list = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+        for item in file_list:
+            if not item['title'].find('Orgi'):
+                Orgi_id = item['id']
+    else:
+        print ('Folder exists')
+
+    _q = {'q': "'{}' in parents and trashed=false".format(Orgi_id)}
+    file_upload_check = drive.ListFile(_q).GetList()
+    file_list_Orgi = []
+    for current_file in file_upload_check:
+        file_list_Orgi.append(current_file['title'])
+    print(file_list_Orgi)
+
+    return render_template('drive.html',file_list=file_list_Orgi)
 
 # -------------------------------------------------------------------------------------- #
 # 					                  main      					                	 #

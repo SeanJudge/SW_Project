@@ -47,6 +47,9 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/signout"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
           </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/sync"><span class="glyphicon glyphicon-refresh"></span>  Sync</a></li>
+          </ul>
         </div> <!--/.nav-collapse -->
       </div>
     </nav>
@@ -74,7 +77,7 @@
 
       <!--=========================== Tasks ===========================-->
 
-      <div class="row top-buffer"></div>
+      <div class="row top-buffer">
         <div class="col-md-6">
           <div class="tasks"> <p> Your Tasks </p> </div>
           <div class="row top-buffer"></div>
@@ -104,21 +107,45 @@
           </table>
           <div class="tasks"> <p><a class="btn btn-success" href="/tasks" role="button">Tasks &raquo;</a></p> </div>
         </div><!--/.col-md-6-->
-        
-        <!--=========================== Forum ===========================-->
+
+        <!--=========================== Drive ===========================-->
+        <div class="col-md-6">
+          <div class="drive"> <p> Your Drive </p> </div>
+          <div class="row top-buffer"></div>
+          <table id="filetable" class="table table-striped">
+            <tr>
+              <th>Name</th>
+            </tr>
+            {% for file in file_list %}
+            <tr>
+              <td><a href="/note_taking">{{ file }}</a></td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+        <div class="drive"> <p><a class="btn btn-danger" href="/drive" role="button">Drive &raquo;</a></p> </div>
+      </div>
+   
+      <div class="row top-buffer"></div>
+      <div class="row top-buffer"></div>
+   
+   
+      </div>
+
+        <!--=========================== Forum ===========================--
 
         <div class="col-md-6">
-          <div class="forums">  
+          <div class="forums">
             <p>Your Forum<p>
             <div class="row top-buffer"></div>
             <div class="frame">
             <iframe src="http://localhost/phpBB3/" style="border: 2" width="450" height="400"></iframe></div>
             <p><a class="btn btn-danger" href="http://localhost/phpBB3/" role="button">Open Forums &raquo;</a></p>
           </div>
-        </div><!--/.col-md-6<!--> 
+        </div><!--/.col-md-6<!--
 
         <div class="row top-buffer"></div>
-        <div class="row top-buffer"></div>
+        <div class="row top-buffer"></div>-->
 
         <!--=========================== Note Taking ===========================--
 
@@ -135,24 +162,6 @@
             <p><a class="btn btn-warning" href="/note_taking" role="button">Open Note Taking &raquo;</a></p>
           </div>
         </div><!--/.col-md-6--
-
-
-        <!--=========================== Drive ===========================--
-
-        <div class="col-md-6">
-          <div class="drive">  
-            <p>Your Google Drive<p>
-            <div class="row top-buffer"></div>
-            <iframe src="https://drive.google.com/embeddedfolderview?id=0B4qm3OTMNt6Mfmc4OFZ3LUhHUFdDZ294Y3dhclY4MDltUTNOSTZmSTNuNHJxM0FPbFM5YmM#list" style="border: 2" width="450" height="400"></iframe>
-            <p><a class="btn btn-success" href="/drive" role="button">Open Drive &raquo;</a></p>
-          </div>
-        </div><!--/.col-md-6-->
-   
-      <div class="row top-buffer"></div>
-      <div class="row top-buffer"></div>
-   
-   
-      </div>  
 
         
     </div> <!-- /.container -->

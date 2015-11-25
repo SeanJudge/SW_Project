@@ -46,6 +46,9 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a href="/signout"><span class="glyphicon glyphicon-log-out"></span>  Logout</a></li>
           </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/sync"><span class="glyphicon glyphicon-refresh"></span>  Sync</a></li>
+          </ul>
         </div> <!--/.nav-collapse -->
       </div>
     </nav>
@@ -54,10 +57,19 @@
     <div class="row top-buffer"></div>
     
   
-    <!--=========================== Forum ===========================-->
-
-    <div class="forums">  
-       <iframe src="https://drive.google.com/embeddedfolderview?id=0B4qm3OTMNt6Mfmc4OFZ3LUhHUFdDZ294Y3dhclY4MDltUTNOSTZmSTNuNHJxM0FPbFM5YmM#list" style="border: 0" width="1200" height="650" scrolling="no"></iframe>
+    <!--=========================== TABLE FOR FILES ===========================-->
+    <div class="container">
+      <h2>Google Drive Files</h2>
+      <table id="filetable" class="table table-striped">
+        <tr>
+          <th>Name</th>
+        </tr>
+        {% for file in file_list %}
+        <tr>
+          <td><a href="/note_taking">{{ file }}</a></td>
+        </tr>
+        {% endfor %}
+      </table>
     </div>
  
  
