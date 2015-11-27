@@ -83,14 +83,12 @@
           <div class="row top-buffer"></div>
           <table id="thetable" class="table table-striped">
             <tr>
-              <th>ID</th>
               <th>Title</th>
               <th>Description</th>
               <th>Done?</th>
             </tr>
             {% for todo in todos %}
             <tr>
-              <td>{{ todo.id }}</td>
               <td>{{ todo.title }}</td>
               <td>{{ todo.desc }}</td>
               <td>

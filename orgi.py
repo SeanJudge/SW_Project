@@ -148,7 +148,7 @@ def signout():
 # -------------------------------------------------------------------------------------- #
 # 				                     SignUp	                         					 #
 # -------------------------------------------------------------------------------------- #
-
+'''
 @app.route('/signup')					                # Default Address	
 def signup():
     return render_template('signup.html')
@@ -160,12 +160,14 @@ def register():
     print("The email address is '" + email + "'")
     print("The password is '" + password + "'")
 
-    db = sqlite3.connect("orgy.db")
-    
-    g.db.execute("INSERT INTO users VALUES (?, ?)", [email, password])
+    g.db = sqlite3.connect("orgy.db")
+
+    last_user = g.db.execute("SELECT * FROM users WHERE ID = (SELECT MAX(ID) FROM users)")
+
+    g.db.execute("INSERT INTO users VALUES (?, ?, ?)", [(last_user+1),email, password])
     g.db.commit()
     return redirect('/')
-
+'''
 
 # -------------------------------------------------------------------------------------- #
 # 				                    Google API Handling				                 	 #
